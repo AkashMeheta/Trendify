@@ -9,18 +9,42 @@ const initialState = {
   orderDetails: null,
 };
 
+// export const createNewOrder = createAsyncThunk(
+//   "/order/createNewOrder",
+//   async (orderData) => {
+//     const response = await axios.post(
+//       `${import.meta.env.VITE_SERVER_BASE_URL}/api/shop/order/create`,
+//       orderData
+//     ).then(err => console.log(err));
+//     if(response){
+//       console.log(response.data, "from thunk");
+//     }else{
+//       console.log("None from thunk");
+//     }
+    
+//     return response.data;
+//   }
+// );
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
-  async (orderData) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_SERVER_BASE_URL}/api/shop/order/create`,
-      orderData
-    );
-
-    return response.data;
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/shop/order/create`,
+        orderData
+      );
+      if (response && response.data) {
+        console.log(response.data, "from thunk"); // Log to ensure correct data
+        return response.data;
+      } else {
+        throw new Error("No response data"); // Explicitly throw if data is missing
+      }
+    } catch (error) {
+      console.log(error, "Error in createNewOrder thunk");
+      return rejectWithValue(error.message || "Error creating order"); // Reject with an error message
+    }
   }
 );
-
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async ({ paymentId, payerId, orderId }) => {
@@ -85,6 +109,7 @@ const shoppingOrderSlice = createSlice({
         state.isLoading = false;
         state.approvalURL = null;
         state.orderId = null;
+        console.error("Order creation failed:", action.payload); // Log error
       })
       .addCase(getAllOrdersByUserId.pending, (state) => {
         state.isLoading = true;

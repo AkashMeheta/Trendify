@@ -80,7 +80,7 @@ function ShoppingCheckout() {
       paymentId: "",
       payerId: "",
     };
-
+    console.log(orderData, "From Orderdata");
     dispatch(createNewOrder(orderData)).then((data) => {
       console.log(data, "sangam");
       if (data?.payload?.success) {
@@ -88,7 +88,8 @@ function ShoppingCheckout() {
       } else {
         setIsPaymemntStart(false);
       }
-    });
+      console.log(isPaymentStart, "Payment start");
+    })
   }
 
   if (approvalURL) {

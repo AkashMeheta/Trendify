@@ -19,7 +19,7 @@ const createOrder = async (req, res) => {
       payerId,
       cartId,
     } = req.body;
-
+    console.log(req.body, "From order controller")
     const create_payment_json = {
       intent: "sale",
       payer: {
@@ -51,13 +51,12 @@ const createOrder = async (req, res) => {
 
     paypal.payment.create(create_payment_json, async (error, paymentInfo) => {
       if (error) {
-        console.log(error);
-
+        console.log("Error creating PayPal payment:", error.response);
         return res.status(500).json({
           success: false,
-          message: "Error while creating paypal payment",
+          message: error.response ? error.response.message : "Unknown error",
         });
-      } else {
+      }else {
         const newlyCreatedOrder = new Order({
           userId,
           cartId,
