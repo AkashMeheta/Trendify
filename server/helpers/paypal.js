@@ -6,7 +6,7 @@ const paypal = require("paypal-rest-sdk");
 //   client_secret: process.env.PAYPAL_CLIENT_SECRET,
 // });
 paypal.configure({
-  'mode': 'sandbox',
+  'mode': 'live',
   'client_id': process.env.PAYPAL_CLIENT_ID,
   'client_secret': process.env.PAYPAL_CLIENT_SECRET,
 });
