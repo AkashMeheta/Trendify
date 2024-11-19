@@ -10,7 +10,10 @@ import shopOrderSlice from "./shop/order-slice";
 import shopSearchSlice from "./shop/search-slice";
 import shopReviewSlice from "./shop/review-slice";
 import commonFeatureSlice from "./common-slice";
-
+import WishlistSlice from "./user/wishlist"
+import FriendsSlice from "./Friend/friends"
+import userSlice from "./user/UserDetails"
+import SearchFriendSlice from "./Friend/Search-friend"
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -26,6 +29,12 @@ const store = configureStore({
     shopReview: shopReviewSlice,
 
     commonFeature: commonFeatureSlice,
+
+    userSlice: userSlice,
+    wishList: WishlistSlice,
+
+    friends: FriendsSlice,
+    searchFriend: SearchFriendSlice
   },
 });
 

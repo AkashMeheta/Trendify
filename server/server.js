@@ -16,6 +16,10 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
+const getUserDetails = require("./routes/user/user.routers")
+const userWishlist = require("./routes/user/wishlist-routers")
+const friendsRouter = require("./routes/Friend/friend-route")
+
 mongoose
   .connect(process.env.DB_URI)
   .then(() => console.log("MongoDB connected"))
@@ -54,4 +58,7 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+app.use("/api/user", getUserDetails)
+app.use("/api/wishlist", userWishlist)
+app.use("/api/friends", friendsRouter);
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

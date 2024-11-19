@@ -2,12 +2,44 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addListItems,
+  getListItems
+} from "../../store/user/wishlist"
+import { useToast } from "../ui/use-toast";
 
 function ShoppingProductTile({
   product,
   handleGetProductDetails,
   handleAddtoCart,
 }) {
+  //new
+  const {toast} = useToast()
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  function handleAddtoWishlist( productId){
+    console.log("From handleAddtoWishlist",productId);
+    dispatch(
+      addListItems({
+        userId: user?.id,
+        productId: productId,
+        quantity: 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(
+          getListItems({
+            userId: user?.id,
+          })
+        );
+        toast({
+          title: "Product added to Wishlist"
+        })
+      }
+    });
+  };
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGetProductDetails(product?._id)}>
@@ -58,18 +90,31 @@ function ShoppingProductTile({
         </CardContent>
       </div>
       <CardFooter>
-        {product?.totalStock === 0 ? (
-          <Button className="w-full opacity-60 cursor-not-allowed">
-            Out Of Stock
-          </Button>
-        ) : (
-          <Button
-            onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
-            className="w-full"
-          >
-            Add to cart
-          </Button>
-        )}
+        <div className="flex justify-between gap-3">
+          <div>
+              {product?.totalStock === 0 ? (
+              <Button className="w-full opacity-60 cursor-not-allowed">
+                Out Of Stock
+              </Button>
+            ) : (
+              <Button
+                onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
+                className="w-full"
+              >
+                Add to cart
+              </Button>
+            )}
+          </div>
+          <div>
+              <Button
+                onClick={() => handleAddtoWishlist(product?._id)}
+                className="w-full"
+              >
+                Add to Wishlist
+              </Button>
+          </div>
+        </div>
+        
       </CardFooter>
     </Card>
   );

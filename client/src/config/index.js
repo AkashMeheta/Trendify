@@ -222,3 +222,20 @@ export const addressFormControls = [
     placeholder: "Enter any additional notes",
   },
 ];
+
+export const userFormControls = [
+  {
+    name: "userName",
+    label: "User Name",
+    placeholder: "Enter your user name",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "description",
+    label: "Description",
+    placeholder: "Tell us about youself",
+    componentType: "input",
+    type: "text",
+  },
+];
