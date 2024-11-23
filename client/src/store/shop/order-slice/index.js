@@ -109,7 +109,7 @@ const shoppingOrderSlice = createSlice({
         state.isLoading = false;
         state.approvalURL = null;
         state.orderId = null;
-        console.error("Order creation failed:", action.payload); // Log error
+        
       })
       .addCase(getAllOrdersByUserId.pending, (state) => {
         state.isLoading = true;

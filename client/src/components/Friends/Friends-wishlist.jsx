@@ -17,7 +17,7 @@ function FriendWishlist({friendId}) {
   const {toast} = useToast();
   const dispatch = useDispatch();
 
-  const {friendWishlist, friendsList} = useSelector((state)=> state.friends);
+  const {friendWishlist, friendsList, friendPrivacy} = useSelector((state)=> state.friends);
 
   useEffect(() => {
     dispatch(getFriendWishlist(friendId));
@@ -40,7 +40,11 @@ function FriendWishlist({friendId}) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {friendWishlist && friendWishlist.length > 0
+            {friendPrivacy ? <TableRow>
+                    <TableCell>
+                        Wishlist is Private
+                    </TableCell>
+                </TableRow> :friendWishlist && friendWishlist.length > 0
               ? friendWishlist.map((ListItem) => (
                   <TableRow key={ListItem?.productId}>
                     <TableCell><img src={`${ListItem?.image}`} alt="" className="w-12 h-12 object-cover rounded-md md:w-16 md:h-16"/></TableCell>

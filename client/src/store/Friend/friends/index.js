@@ -9,7 +9,8 @@ const initialState = {
         userDetails: {}, // User details structure
         friendInfo: []   // Friend relationship structure
     },
-    friendWishlist: []
+    friendWishlist: [],
+    friendPrivacy: false
 };
 
 export const addFriend = createAsyncThunk(
@@ -76,7 +77,7 @@ const FriendSlice = createSlice({
     name:"friends",
     initialState,
     reducers:{
-       
+      
     },
     extraReducers: (builder) => {
         builder
@@ -137,10 +138,12 @@ const FriendSlice = createSlice({
         .addCase(getFriendWishlist.fulfilled, (state, action) => {
             state.isLoading = false;
             state.friendWishlist = action.payload.data.items || [];
+            state.friendPrivacy = action.payload.data.privacy || false;
         })
         .addCase(getFriendWishlist.rejected, (state) => {
             state.isLoading = false;
             state.friendWishlist = [];
+            state.friendPrivacy = false;
         })
     }
 })

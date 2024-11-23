@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import Toggle from "../ui/toggle";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getListItems,
@@ -48,7 +49,12 @@ function Wishlist() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Wishlist</CardTitle>
+        <CardTitle>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl text-black font-semibold">Wishlist</h1>
+            <Toggle userID={user.id}/>
+          </div>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>

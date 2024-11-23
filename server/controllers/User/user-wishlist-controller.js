@@ -91,11 +91,16 @@ const fetchListItems = async (req, res) => {
             salePrice: item.productId.salePrice,
             quantity: item.quantity,
         }))
+
+        const whislist = await Wishlist.findOne({userId});
+        const privacy = whislist.privacy;
+
         res.status(200).json({
             success: true,
             data: {
               ...list._doc,
               items: populateListItems,
+              privacy: privacy
             },
           });
     }catch(error){
@@ -109,6 +114,39 @@ const fetchListItems = async (req, res) => {
 
 const updateListItemQty = async (req, res) => {
 // {Maybe Implement Later}
+}
+
+const updatePrivacy = async (req, res) => {
+    const {userId, privacy} = req.body;
+    if(!userId){
+        return res.status(400).json({
+            success: false,
+            message: "User id is manadatory!",
+          });
+    }
+
+    const list = await Wishlist.findOneAndUpdate(
+        {userId: userId},
+        {
+            privacy: privacy
+        },
+        {new: true}
+    );
+
+
+    if (!list) {
+        return res.status(404).json({
+          success: false,
+          message: "list not found!",
+        });
+    }
+    res.status(200).json({
+        success: true,
+        message: "list Updated",
+        data: list
+      });
+
+
 }
 
 const deleteListItem = async (req, res) => {
@@ -168,4 +206,5 @@ module.exports = {
     fetchListItems,
     updateListItemQty,
     deleteListItem,
+    updatePrivacy
 }

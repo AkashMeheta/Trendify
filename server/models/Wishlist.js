@@ -20,6 +20,9 @@ const WishlistSchema = new mongoose.Schema({
         },
       },
     ],
+    privacy: {
+      type: Boolean
+    }
   },
   {
     timestamps: true,

@@ -3,7 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const initialState = {
     listitems: [],
-    isLoading: false
+    isLoading: false,
+    privacy: false
 }
    
 export const addListItems = createAsyncThunk(
@@ -30,6 +31,21 @@ export const getListItems = createAsyncThunk(
     }
 )
 
+export const updatePrivacy = createAsyncThunk(
+    "/wishlist/update/privacy",
+    async ({userId, privacy}) => {
+        const response = await axios.put(
+            `${import.meta.env.VITE_SERVER_BASE_URL}/api/wishlist/update/privacy`,
+            {
+                userId,
+                privacy
+            }
+        );
+        return response.body;
+    }
+)
+
+
 export const deleteListItems = createAsyncThunk(
     "/wishlist/delete",
     async ({userId, productId}) => {
@@ -45,7 +61,7 @@ const WishlistSlice = createSlice({
     name: "wishlist",
     initialState,
     reducers: {
-
+        
     },
     extraReducers: (buidler) => {
         buidler.addCase(addListItems.pending, (state) => {
@@ -63,12 +79,16 @@ const WishlistSlice = createSlice({
             state.isLoading = true;
         })
         .addCase(getListItems.fulfilled, (state, action) => {
+            
             state.isLoading = false;
             state.listitems = action.payload.data.items;
+            state.privacy = action.payload.data.privacy;
+            
         })
         .addCase(getListItems.rejected, (state) => {
             state.isLoading = false;
             state.listitems = [];
+            state.privacy = false;
         })
         .addCase(deleteListItems.pending, (state) => {
             state.isLoading = true;
@@ -80,6 +100,17 @@ const WishlistSlice = createSlice({
         .addCase(deleteListItems.rejected, (state) => {
             state.isLoading = false;
             state.listitems = [];
+        })
+        .addCase(updatePrivacy.pending, (state)=> {
+            state.isLoading = true;
+        })
+        .addCase(updatePrivacy.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.privacy = action.payload.data.privacy;
+        })
+        .addCase(updatePrivacy.rejected, (state) => {
+            state.isLoading = false;
+            state.privacy = false;
         })
     }
 })
