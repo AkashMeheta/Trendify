@@ -13,7 +13,7 @@ const shopAddressRouter = require("./routes/shop/address-routes");
 const shopOrderRouter = require("./routes/shop/order-routes");
 const shopSearchRouter = require("./routes/shop/search-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
-
+const shareCartRouter = require("./routes/shop/shared-cart-router")
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
 const getUserDetails = require("./routes/user/user.routers")
@@ -61,4 +61,6 @@ app.use("/api/common/feature", commonFeatureRouter);
 app.use("/api/user", getUserDetails)
 app.use("/api/wishlist", userWishlist)
 app.use("/api/friends", friendsRouter);
+
+app.use("/api/sharedCart", shareCartRouter);
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

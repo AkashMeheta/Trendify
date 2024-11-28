@@ -19,7 +19,7 @@ const createOrder = async (req, res) => {
       payerId,
       cartId,
     } = req.body;
-    console.log(req.body, "From order controller")
+    
     const create_payment_json = {
       intent: "sale",
       payer: {

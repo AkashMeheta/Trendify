@@ -45,3 +45,19 @@ APIs:
 10) Add Feature Image:
 	/api/common/feature/add (add image)
 	/api/common/feature/get (get all image)
+	11) Add user Details:
+	/api/user/userDetails/:userId (fetch details user)
+	/api/user/update/:userId (update user details)
+
+12) User Wishlist details:
+	/api/wishlist/add (Add to wishlist)
+	/api/wishlist/get/:userId (get user wishlist)
+	/api/wishlist/update-list (update-list not implemented yet)
+	/api/wishlist/:userId/:productid (delete product from list)
+	/api/wishlist/update/privacy (update wishlist privacy)
+
+13) Friend:
+	/api/friends/:userId (fetch all user friends)
+	/api/friends/add (add someone as friend)
+	/api/friends/:userId/:friendId (delete friend of a user)
+	/api/friends/search/:keyword (search a friend)
